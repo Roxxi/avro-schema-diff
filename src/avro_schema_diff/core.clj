@@ -25,14 +25,7 @@
  (make-parse-schema String)
  (make-parse-schema InputStream)
 
-(comment
-  "tests"
-  (parse-schema "{\"type\":\"string\"}")
-  (parse-schema "path/to/file"))
-
-(declare fields-missing fields-type-changed)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; # Dealing with Avro Types
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -116,11 +109,8 @@
   string
   union)
   
-
-
 (defn field-schema [^Schema$Field f]
   (.schema f))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; # Diffing two Record-Type Avro Schemas
@@ -189,13 +179,3 @@
              (conj type-changes (type-change-note fname type1 type2))
              (rest field-names))))))))
 
-
-
-
-
-
-
-;; Write tests for the existing code / make sure it works
-;; Change the existing reducer to output each file into S3 at the specified locations
-;; Remove step 3
-;; Ensure step 4 works.
