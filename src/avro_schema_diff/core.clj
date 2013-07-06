@@ -118,7 +118,7 @@
 
 
 (defn field-schema [^Schema$Field f]
-  (.getSchema f))
+  (.schema f))
 
 ;; Note, this will replace the clojure.core/name functionality
 ;; in this name space.
@@ -161,8 +161,8 @@
 (defn fields-missing [rec1 rec2]
   (fields-added rec2 rec1))
 
-(defn- type-change-note [name was is]
-  {:name name :was (name was) :is (name is)})
+(defn- type-change-note [fname was is]
+  {:name fname :was (name was) :is (name is)})
 
 (defn field-type-changes [rec1 rec2]
   (let [common-fields (clojure.set/intersection
@@ -172,7 +172,7 @@
         name=>type2 (field-name=>field-types rec2)]
     (loop [type-changes []
            field-names common-fields]
-      (if (empty? common-fields)
+      (if (empty? field-names)
         type-changes
         (let [fname (first field-names)
               type1 (name=>type1 fname)
