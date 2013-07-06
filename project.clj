@@ -1,4 +1,4 @@
-(defproject avro-schema-diff "0.1.0"
+(defproject roxxi/avro-schema-diff "0.1.0"
   :description "A Clojure library designed to diff any two Avro Record Schemas and provide a summary of the differences."
   :url "https://github.com/Roxxi/avro-schema-diff"
   :license {:name "Eclipse Public License"
