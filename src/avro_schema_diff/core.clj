@@ -94,8 +94,9 @@
   
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; This generates array-type? boolean-type? bytes-type?
-;; functions.
+;; Defines predicates: avro-array? avro-boolean? avro-bytes etc.
+;; Defines vars: avro-array avro-boolean avro-bytes etc.
+;; 
 ;; Types are listed here:
 ;; http://avro.apache.org/docs/1.7.4/api/java/index.html
 ;;
@@ -119,6 +120,11 @@
 
 (defn field-schema [^Schema$Field f]
   (.schema f))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; # Diffing two Record-Type Avro Schemas
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Note, this will replace the clojure.core/name functionality
 ;; in this name space.
@@ -151,7 +157,10 @@
   (field-name=>field-types [schema]
     (extract-map (fields schema)
                  :key-extractor name
-                 :value-extractor #(schema-type (field-schema %))))) 
+                 :value-extractor #(schema-type (field-schema %)))))
+
+(defn- type-change-note [fname was is]
+  {:name fname :was (name was) :is (name is)})
 
 (defn fields-added [rec1 rec2]
   (let [base-field-names (into #{} (field-names rec1))
@@ -160,9 +169,6 @@
 
 (defn fields-missing [rec1 rec2]
   (fields-added rec2 rec1))
-
-(defn- type-change-note [fname was is]
-  {:name fname :was (name was) :is (name is)})
 
 (defn field-type-changes [rec1 rec2]
   (let [common-fields (clojure.set/intersection
@@ -182,6 +188,10 @@
             (recur
              (conj type-changes (type-change-note fname type1 type2))
              (rest field-names))))))))
+
+
+
+
 
 
 
