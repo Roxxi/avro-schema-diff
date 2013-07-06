@@ -129,7 +129,7 @@
   Schema
   (name [schema] (.getName schema))
   Schema$Field
-  (name [field] (.getName field))
+  (name [field] (.name field))
   Schema$Type
   (name [type] (.getName type)))
 
